@@ -6,13 +6,13 @@
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 19:56:06 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:17:47 by bbourcy          ###   ########.fr       */
+/*   Updated: 2022/04/20 15:52:42 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-int	check_repeat(t_list *node)
+int	check_double(t_list *node)
 {
 	t_list	*search;
 
@@ -46,7 +46,7 @@ int	check(t_list *node)
 {
 	if (check_sort(node))
 		exit (0);
-	if (check_repeat(node))
+	if (check_double(node))
 	{
 		write(2, "Error\n", 6);
 		exit (0);

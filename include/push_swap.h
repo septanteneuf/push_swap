@@ -6,7 +6,7 @@
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:27:13 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 14:37:36 by bbourcy          ###   ########.fr       */
+/*   Updated: 2022/04/20 15:59:26 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ typedef struct	s_list
 	int				index;
 	struct s_list	*next;
 }				t_list;
+
+//	check_error.c
+int		check_double(t_list *node);
+int		check_sort(t_list *node);
+int		check(t_list *node);
 
 //	create_node.c
 t_list	*create_node(int argc, char **argv);
@@ -68,7 +73,5 @@ void	sort_four_six(t_list **stack_a, t_list **stack_b);
 int		len_node(t_list *node);
 void	sort_id(t_list **stack, int argc);
 int		min_data(t_list *node);
-
-
 
 #endif
