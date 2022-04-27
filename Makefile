@@ -2,10 +2,11 @@ NAME	=	push_swap
 
 CC		=	gcc
 
-SRCS 	= 	src/check_error.c src/create_node.c src/ft_atoi.c \
-				src/ft_lstlast.c src/main.c \
-				src/ps.c src/r.c src/rr.c \
-				src/sort_big.c src/sort_small.c src/utils.c \
+SRCS 	= 	src/args.c src/check_error.c src/compute.c \
+				src/ft_split.c src/main.c src/mark.c \
+				src/perform.c src/ps.c src/push_to_b.c \
+				src/r.c  src/rr.c src/sort_big.c src/sort_small.c \
+				src/utils.c src/utils2.c \
 
 OBJS	=	${SRCS:.c=.o}
 

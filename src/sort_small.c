@@ -5,56 +5,81 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/22 11:32:58 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:20:08 by bbourcy          ###   ########.fr       */
+/*   Created: 2022/03/10 14:54:33 by bbourcy           #+#    #+#             */
+/*   Updated: 2022/04/25 18:35:28 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-void	sort_two(t_list **stack_a)
+void	push_smallest(int a, t_base *base)
 {
-	if (((*stack_a)->data > (*stack_a)->next->data))
-		sa(stack_a);
+	int	i;
+	int	smallest;
+
+	i = 1;
+	smallest = base->a[0];
+	while (i < a)
+	{
+		if (base->a[i] < smallest)
+			smallest = base->a[i];
+		++i;
+	}
+	i = -1;
+	while (i++ < a - 1)
+	{
+		if (base->a[i] == smallest)
+			break ;
+	}
+	while (base->a[0] != smallest)
+	{
+		if (i > base->c_a / 2)
+			rra(1, base);
+		else
+			ra(1, base);
+	}
+	pb(base);
 }
 
-void	sort_three(t_list **stack_a)
+void	sort_blood(t_base *base)
 {
-	int	a;
-	int	b;
-	int	c;
-
-	a = (*stack_a)->data;
-	b = (*stack_a)->next->data;
-	c = (*stack_a)->next->next->data;
-	if ((a > b) && (b < c) && (c > a))
-		sa(stack_a);
-	if ((a > b) && (b > c) && (c < a))
+	if (base->a[0] < base->a[1] && base->a[0]
+		< base->a[2] && base->a[1] > base->a[2])
 	{
-		sa(stack_a);
-		rra(stack_a);
+		sa(base);
+		ra(1, base);
 	}
-	if ((a > b) && (b < c) && (c < a))
-		ra(stack_a);
-	if ((a < b) && (b > c) && (c > a))
+	else if (base->a[0] > base->a[1] && base->a[0] < base->a[2])
+		sa(base);
+	else if (base->a[0] < base->a[1] && base->a[0] > base->a[2])
+		rra(1, base);
+	else if (base->a[0] > base->a[2] && base->a[1]
+		< base->a[2] && base->a[0] > base->a[1])
+		ra(1, base);
+	else if (base->a[0] > base->a[1] && base->a[1] > base->a[2])
 	{
-		sa(stack_a);
-		ra(stack_a);
+		sa(base);
+		rra(1, base);
 	}
-	if ((a < b) && (b > c) && (c < a))
-		rra(stack_a);
 }
 
-void	sort_four_six(t_list **stack_a, t_list **stack_b)
+void	six_sort(t_base *base)
 {
-	while (len_node(*stack_a) != 3)
+	int	diff;
+	int	i;
+
+	i = 0;
+	diff = base->start.size - 3;
+	while (i < diff)
 	{
-		while ((*stack_a)->data != min_data(*stack_a))
-			ra(stack_a);
-		pb(stack_a, stack_b);
-		if (!(check_sort(*stack_a)) && (len_node(*stack_a) == 3))
-			sort_three(stack_a);
+		push_smallest(base->start.size - i, base);
+		++i;
 	}
-	while (*stack_b)
-		pa(stack_a, stack_b);
+	sort_blood(base);
+	i = 0;
+	while (i < diff)
+	{
+		pa(base);
+		++i;
+	}
 }

@@ -5,61 +5,50 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/10 15:00:59 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:17:47 by bbourcy          ###   ########.fr       */
+/*   Created: 2022/03/10 14:54:33 by bbourcy           #+#    #+#             */
+/*   Updated: 2022/04/27 10:52:58 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-void	ra(t_list **stack_a)
+void	ra(int bool, t_base *base)
 {
-	t_list	*last;
-	t_list	*first;
+	int		i;
+	int		tmp;
 
-	if ((*stack_a)->next)
+	tmp = base->a[0];
+	i = 0;
+	while (i < base->c_a - 1)
 	{
-		last = *stack_a;
-		first = (*stack_a)->next;
-		while ((*stack_a)->next)
-			*stack_a = (*stack_a)->next;
-		(*stack_a)->next = last;
-		last->next = NULL;
-		*stack_a = first;
+		base->a[i] = base->a[i + 1];
+		++i;
+	}
+	base->a[i] = tmp;
+	if (bool == 1)
 		write(1, "ra\n", 3);
-	}
-	else
-		return ;
 }
 
-void	rb(t_list **stack_b)
+void	rb(int bool, t_base *base)
 {
-	t_list	*last;
-	t_list	*first;
+	int		i;
+	int		tmp;
 
-	if ((*stack_b)->next)
+	tmp = base->b[0];
+	i = 0;
+	while (i < base->c_b - 1)
 	{
-		last = *stack_b;
-		first = (*stack_b)->next;
-		while ((*stack_b)->next)
-			*stack_b = (*stack_b)->next;
-		(*stack_b)->next = last;
-		last->next = NULL;
-		*stack_b = first;
+		base->b[i] = base->b[i + 1];
+		++i;
+	}
+	base->b[i] = tmp;
+	if (bool == 1)
 		write(1, "rb\n", 3);
-	}
-	else
-		return ;
 }
 
-void	rr(t_list *stack_a, t_list *stack_b)
+void	rr(t_base *base)
 {
-	if ((stack_a->next) && (stack_b->next))
-	{
-		ra(&stack_a);
-		rb(&stack_b);
-		write(1, "rr\n", 3);
-	}
-	else
-		return ;
+	ra(0, base);
+	rb(0, base);
+	write(1, "rr\n", 3);
 }

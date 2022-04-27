@@ -6,84 +6,77 @@
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/10 14:54:33 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:17:47 by bbourcy          ###   ########.fr       */
+/*   Updated: 2022/04/25 18:31:04 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-void	pa(t_list **stack_a, t_list **stack_b)
+void	pa(t_base *base)
 {
-	t_list	*tmp;
+	int	i;
 
-	if (stack_a && stack_b)
+	i = base->c_a;
+	while (i > 0)
 	{
-		tmp = *stack_b;
-		*stack_b = (*stack_b)->next;
-		tmp->next = *stack_a;
-		*stack_a = tmp;
-		write(1, "pa\n", 3);
+		base->a[i] = base->a[i - 1];
+		--i;
 	}
-	else
-		return ;
+	base->a[0] = base->b[0];
+	base->c_b -= 1;
+	while (i < base->c_b)
+	{
+		base->b[i] = base->b[i + 1];
+		i++;
+	}
+	base->c_a += 1;
+	write(1, "pa\n", 3);
 }
 
-void	pb(t_list **stack_a, t_list **stack_b)
+void	pb(t_base *base)
 {
-	t_list	*tmp;
+	int	i;
 
-	if (stack_a)
+	i = base->c_b;
+	while (i > 0)
 	{
-		tmp = *stack_a;
-		*stack_a = (*stack_a)->next;
-		tmp->next = *stack_b;
-		*stack_b = tmp;
-		write(1, "pb\n", 3);
+		base->b[i] = base->b[i - 1];
+		i--;
 	}
-	else
-		return ;
+	base->b[0] = base->a[0];
+	base->c_a -= 1;
+	while (i < base->c_a)
+	{
+		base->a[i] = base->a[i + 1];
+		++i;
+	}
+	base->c_b += 1;
+	write(1, "pb\n", 3);
 }
 
-void	sa(t_list **stack_a)
+void	sa(t_base *base)
 {
-	t_list	*tmp;
+	int		tmp;
 
-	if ((*stack_a))
-	{
-		tmp = (*stack_a)->next;
-		(*stack_a)->next = (*stack_a)->next->next;
-		tmp->next = (*stack_a);
-		(*stack_a) = tmp;
-		write(1, "sa\n", 3);
-	}
-	else
-		return ;
+	tmp = base->a[0];
+	base->a[0] = base->a[1];
+	base->a[1] = tmp;
+	write(1, "sa\n", 3);
 }
 
-void	sb(t_list **stack_b)
+void	sb(t_base *base)
 {
-	t_list	*tmp;
+	int		tmp;
 
-	if ((*stack_b)->next)
-	{
-		tmp = (*stack_b)->next;
-		(*stack_b)->next = (*stack_b)->next->next;
-		tmp->next = (*stack_b);
-		(*stack_b) = tmp;
-		write(1, "sb\n", 3);
-	}
-	else
-		return ;
+	tmp = base->b[0];
+	base->b[0] = base->b[1];
+	base->b[1] = tmp;
+	write(1, "sb\n", 3);
 }
 
-void	ss(t_list *stack_a, t_list *stack_b)
+void	ss(t_base *base)
 {
-	if ((stack_a->next) && (stack_b->next))
-	{
-		sa(&stack_a);
-		sb(&stack_b);
-		write(1, "ss\n", 3);
-	}
-	else
-		return ;
+	sa(base);
+	sb(base);
+	write(1, "sa\n", 3);
 }

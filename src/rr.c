@@ -5,65 +5,50 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 12:45:00 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:17:47 by bbourcy          ###   ########.fr       */
+/*   Created: 2022/03/10 14:54:33 by bbourcy           #+#    #+#             */
+/*   Updated: 2022/04/27 11:09:49 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-void	rra(t_list **stack_a)
+void	rra(int bool, t_base *base)
 {
-	t_list	*tmp;
-	t_list	*first;
-	t_list	*last;
+	int		i;
+	int		tmp;
 
-	if ((*stack_a)->next)
+	i = base->c_a - 1;
+	tmp = base->a[i];
+	while (i > 0)
 	{
-		tmp = *stack_a;
-		while (tmp->next->next != NULL)
-			tmp = tmp->next;
-		last = tmp;
-		first = tmp->next;
-		last->next = NULL;
-		first->next = *stack_a;
-		*stack_a = first;
+		base->a[i] = base->a[i - 1];
+		--i;
+	}
+	base->a[0] = tmp;
+	if (bool == 1)
 		write(1, "rra\n", 4);
-	}
-	else
-		return ;
 }
 
-void	rrb(t_list **stack_b)
+void	rrb(int bool, t_base *base)
 {
-	t_list	*tmp;
-	t_list	*first;
-	t_list	*last;
+	int		i;
+	int		tmp;
 
-	if ((*stack_b)->next)
+	i = base->c_b - 1;
+	tmp = base->b[i];
+	while (i > 0)
 	{
-		tmp = *stack_b;
-		while (tmp->next->next != NULL)
-			tmp = tmp->next;
-		last = tmp;
-		first = tmp->next;
-		last->next = NULL;
-		first->next = *stack_b;
-		*stack_b = first;
+		base->b[i] = base->b[i - 1];
+		--i;
+	}
+	base->b[0] = tmp;
+	if (bool == 1)
 		write(1, "rrb\n", 4);
-	}
-	else
-		return ;
 }
 
-void	rrr(t_list *stack_a, t_list *stack_b)
+void	rrr(t_base *base)
 {
-	if ((stack_a->next) && (stack_b->next))
-	{
-		rra(&stack_a);
-		rrb(&stack_b);
-		write(1, "rrr\n", 4);
-	}
-	else
-		return ;
+	rra(0, base);
+	rrb(0, base);
+	write(1, "rrr\n", 4);
 }

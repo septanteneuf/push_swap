@@ -6,7 +6,7 @@
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:27:13 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 16:03:18 by bbourcy          ###   ########.fr       */
+/*   Updated: 2022/04/27 10:50:45 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,60 +18,115 @@
 # include <stdio.h>
 # include <unistd.h>
 
-typedef struct	s_list
+typedef struct s_start
 {
-	int				data;
-	int				id;
-	int				index;
-	struct s_list	*next;
-}				t_list;
+	int		size;
+	int		max;
+	int		min;
+}			t_start;
 
-//	check_error.c
-int		check_double(t_list *node);
-int		check_sort(t_list *node);
-int		check(t_list *node);
+typedef struct score
+{
+	int		score;
+	int		rrb;
+	int		rra;
+	int		rrr;
+	int		ra;
+	int		rb;
+	int		rr;
+}			t_score;
 
-//	create_node.c
-t_list	*create_node(int argc, char **argv);
+typedef struct s_base
+{
+	t_start	start;
+	t_score	current;
+	t_score	best;
+	int		max;
+	int		mid;
+	int		c_a;
+	int		c_b;
+	int		c_c;
+	int		*a;
+	int		*b;
+	int		*c;
+}			t_base;
 
-//	ft_atoi.c
-int		ft_atoi(const char *str);
+// args.c
+void	stack_fill(char **av, int ac, t_base *base);
+void	stack_fill_q(char **av, t_base *base);
+void	arg_checker(int argc, char **argv, t_base *base);
+void	kill_prog(char *str, t_base *base);
+int		ft_atoi(const char *str, t_base *base);
 
-//	ft_lstlast.c
-t_list	*ft_lstlast(t_list *node);
+// check_error.c
+void	is_sorted(t_base *base);
+void	is_repeated(t_base *base);
+int		ft_error(char *str);
+void	check_num(char **av, int ac);
+void	check_num_q(char *av, t_base *base);
 
-//	main.c
-int		main(int argc, char **argv);
+// compute.c
+void	count_ra(int b, t_base *base);
+void	merge_rr(t_base *base);
+void	copy_to_best(t_base *base);
+void	score_init_max(t_base *base);
+void	compute(int max, t_base *base);
 
-//	ps.c
-void	pa(t_list **stack_a, t_list **stack_b);
-void	pb(t_list **stack_a, t_list **stack_b);
-void	sa(t_list **stack_a);
-void	sb(t_list **stack_b);
-void	ss(t_list *stack_a, t_list *stack_b);
+// ft_split.c
+char	**ft_split(const char *s, char c);
 
-//	r.c
-void	ra(t_list **stack_a);
-void	rb(t_list **stack_b);
-void	rr(t_list *stack_a, t_list *stack_b);
+// mark.c
+int		find_min(int size, t_base *base);
+int		find_max(int size, t_base *base);
+void	indexer(int size, t_base *base);
+void	markup(int size, int index, int prev, t_base *base);
+void	remark(int size, t_base *base);
 
-//	rr.c
-void	rra(t_list **stack_a);
-void	rrb(t_list **stack_b);
-void	rrr(t_list *stack_a, t_list *stack_b);
+// oerform.c
+void	perform(t_base *base);
 
-//	sort_big.c
-void	sort_100(t_list **stack_a, t_list **stack_b);
-void	sort_500(t_list **stack_a, t_list **stack_b);
+// ps.c
+void	pa(t_base *base);
+void	pb(t_base *base);
+void	sa(t_base *base);
+void	sb(t_base *base);
+void	ss(t_base *base);
 
-//	sort small.c
-void	sort_two(t_list **stack_a);
-void	sort_three(t_list **stack_a);
-void	sort_four_six(t_list **stack_a, t_list **stack_b);
+// push_to_b.c
+void	keep_me(t_base *base);
+int		ps_finder(int c, t_base *base);
+void	push_to_norme(t_base *base);
+void	push_to_b(t_base *base);
 
-//	utils.c
-int		len_node(t_list *node);
-void	sort_id(t_list **stack, int argc);
-int		min_data(t_list *node);
+// r.c
+void	ra(int bool, t_base *base);
+void	rb(int bool, t_base *base);
+void	rr(t_base *base);
+
+// rr.c
+void	rra(int bool, t_base *base);
+void	rrb(int bool, t_base *base);
+void	rrr(t_base *base);
+
+// sort_big.c
+void	final_sort(t_base *base);
+void	small_sort(t_base *base);
+void	ft_free(t_base *base);
+void	sort(t_base *base);
+
+// sort_small.c
+void	push_smallest(int a, t_base *base);
+void	sort_blood(t_base *base);
+void	six_sort(t_base *base);
+
+// utils.c
+size_t	ft_strlen(const char *s);
+int		is_digit(int c);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t	length(char const *s, char c);
+
+// utils2.c
+void	score_init(t_base *base);
+void	markup_norme(int *i, int *index, int *tmp, t_base *base);
 
 #endif

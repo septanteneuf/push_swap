@@ -5,88 +5,69 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 16:47:38 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:17:47 by bbourcy          ###   ########.fr       */
+/*   Created: 2022/03/10 14:54:33 by bbourcy           #+#    #+#             */
+/*   Updated: 2022/04/25 18:47:57 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-static int	position(t_list **stack_b, int len)
+void	final_sort(t_base *base)
 {
-	t_list	*tmp;
+	int		i;
+
+	i = 1;
+	while (base->a[i] != 0)
+		++i;
+	while (base->a[0] != 0)
+	{
+		if (i > base->c_a / 2)
+			rra(1, base);
+		else
+			ra(1, base);
+	}
+}
+
+void	small_sort(t_base *base)
+{
+	if (base->c_a == 2)
+		sa(base);
+	six_sort(base);
+}
+
+void	ft_free(t_base *base)
+{
+	free(base->a);
+	free(base->b);
+	free(base->c);
+	exit(0);
+}
+
+void	sort(t_base *base)
+{
 	int		i;
 
 	i = 0;
-	tmp = *stack_b;
-	while (tmp->id != len)
+	if (base->c_a < 7)
+		small_sort(base);
+	else
 	{
-		tmp = tmp->next;
-		i++;
-	}
-	return (i);
-}
-
-static void	sort_pa(t_list **stack_a, t_list **stack_b)
-{
-	int	len;
-
-	while ((*stack_b) != NULL)
-	{
-		len = len_node(*stack_b) - 1;
-		if ((*stack_b)->id != len && (len / 2) > position(stack_b, len))
-			rb(stack_b);
-		else if ((*stack_b)->id != len && (len / 2) <= position(stack_b, len))
-			rrb(stack_b);
-		else if ((*stack_b)->id == len)
-			pa(stack_a, stack_b);
-	}
-}
-
-void	sort_100(t_list **stack_a, t_list **stack_b)
-{
-	int	i;
-
-	i = 0;
-	while ((*stack_a) != NULL)
-	{
-		if (i > 1 && (*stack_a)->id <= i)
+		keep_me(base);
+		push_to_b(base);
+		while (i < base->mid / 2)
 		{
-			pb(stack_a, stack_b);
-			i++;
-			rb(stack_b);
+			score_init_max(base);
+			compute(base->mid, base);
+			perform(base);
+			++i;
 		}
-		else if ((*stack_a)->id <= i + 15)
+		while (base->c_b)
 		{
-			pb(stack_a, stack_b);
-			i++;
+			score_init_max(base);
+			compute(base->max, base);
+			perform(base);
 		}
-		else
-			ra(stack_a);
+		final_sort(base);
 	}
-	sort_pa(stack_a, stack_b);
-}
-
-void	sort_500(t_list **stack_a, t_list **stack_b)
-{
-	int	i;
-
-	i = 0;
-	while ((*stack_a) != NULL)
-	{
-		if (i > 1 && (*stack_a)->id <= i)
-		{
-			pb(stack_a, stack_b);
-			i++;
-			rb(stack_b);
-		}
-		else if ((*stack_a)->id <= i + 30)
-		{
-			pb(stack_a, stack_b),
-			i++;
-		}
-		else
-			ra(stack_a);
-	}
-	sort_pa(stack_a, stack_b);
+	ft_free(base);
 }

@@ -5,71 +5,72 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 16:53:47 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:17:47 by bbourcy          ###   ########.fr       */
+/*   Created: 2022/03/10 14:54:33 by bbourcy           #+#    #+#             */
+/*   Updated: 2022/04/25 18:46:15 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-int	len_node(t_list *node)
+size_t	ft_strlen(const char *s)
 {
-	t_list	*tmp;
-	int		len;
+	size_t	count;
 
-	if (!node)
-		return (0);
-	len = 0;
-	tmp = node;
-	while (tmp)
+	count = 0;
+	while (s[count])
 	{
-		tmp = tmp->next;
-		len++;
+		if (s[count] != '\0')
+			count++;
 	}
-	return (len);
+	return (count);
 }
 
-void	sort_id(t_list **stack, int argc)
+int	is_digit(int c)
 {
-	t_list	*tmp;
-	t_list	*min_tmp;
-	int		i;
-	int		j;
+	if ((c >= '0' && c <= '9') || c == ' ' || c == '-')
+		return (0);
+	return (1);
+}
 
-	j = 0;
-	while (argc)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	unsigned int	i;
+
+	i = 0;
+	if (size > 0)
 	{
-		tmp = *stack;
-		i = 2147483647;
-		while (tmp)
+		while (--size && src[i])
 		{
-			if (tmp->data <= i && tmp->id == -1)
-			{
-				i = tmp->data;
-				min_tmp = tmp;
-			}
-			tmp = tmp->next;
+			dst[i] = src[i];
+			i++;
 		}
-		min_tmp->id += j;
-		j++;
-		argc--;
+		dst[i] = '\0';
 	}
+	while (src[i])
+		i++;
+	return (i);
 }
 
-int	min_data(t_list *node)
+size_t	length(char const *s, char c)
 {
-	t_list	*tmp;
-	int		min;
+	size_t	len;
+	size_t	amount;
 
-	if (!node)
-		return (0);
-	tmp = node;
-	min = node->data;
-	while (tmp->next)
+	amount = 0;
+	while (*s)
 	{
-		if (min > tmp->next->data)
-			min = tmp->next->data;
-		tmp = tmp->next;
+		len = 0;
+		while (*s != c && *s)
+		{
+			++len;
+			++s;
+		}
+		if (len != 0)
+		{
+			++amount;
+			--s;
+		}
+		++s;
 	}
-	return (min);
+	return (amount);
 }

@@ -6,53 +6,36 @@
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 16:21:09 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:14:51 by bbourcy          ###   ########.fr       */
+/*   Updated: 2022/04/27 11:11:17 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-static void	free_node(t_list *node)
-{
-	t_list	*tmp;
-
-	while (node)
-	{
-		tmp = node;
-		node = node->next;
-		if (tmp)
-			free(tmp);
-	}
-	node = NULL;
-}
-
-void	sort(int argc, t_list **stack_a, t_list **stack_b)
-{
-	if (argc == 3)
-		sort_two(stack_a);
-	if (argc == 4)
-		sort_three(stack_a);
-	if (argc >= 5 && argc <= 7)
-		sort_four_six(stack_a, stack_b);
-	if (argc > 7 && argc <= 101)
-		sort_100(stack_a, stack_b);
-	if (argc > 101)
-		sort_500(stack_a, stack_b);
-}
+/* ************************************************************************** */
+// verif si sort > incxation > trouver val min et max 
+// > baliser les min et max > pb sauf min et max les pivot et les deja sort
+// > si sort > compter et trouver nombres avec les plus petits de a et b
+// >verif pour les RR et rrr pa jusque b vide > tout est sort > fin 
+/* ************************************************************************** */
 
 int	main(int argc, char **argv)
 {
-	t_list	*stack_a;
-	t_list	*stack_b;
+	t_base	stack;
 
+	arg_checker(argc, argv, &stack);
+	stack.a = (int *)malloc(sizeof(int) * stack.start.size);
+	stack.b = (int *)malloc(sizeof(int) * stack.start.size);
+	stack.c = (int *)malloc(sizeof(int) * stack.start.size);
 	if (argc > 2)
-	{
-		stack_a = create_node(argc, argv);
-		check(stack_a);
-		sort_id(&stack_a, argc);
-		stack_b = NULL;
-		sort(argc, &stack_a, &stack_b);
-		free_node(stack_a);
-	}
-	return (0);
+		stack_fill(argv, argc, &stack);
+	else if (argc == 2)
+		stack_fill_q(ft_split(argv[1], ' '), &stack);
+	else
+		ft_free(&stack);
+	if (!stack.a || !stack.b || !stack.c)
+		ft_error("Error\n");
+	indexer(stack.start.size, &stack);
+	is_sorted(&stack);
+	sort(&stack);
 }

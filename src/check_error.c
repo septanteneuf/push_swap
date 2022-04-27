@@ -6,50 +6,100 @@
 /*   By: bbourcy <bbourcy@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 19:56:06 by bbourcy           #+#    #+#             */
-/*   Updated: 2022/04/20 15:52:42 by bbourcy          ###   ########.fr       */
+/*   Updated: 2022/04/27 11:11:29 by bbourcy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-int	check_double(t_list *node)
+// verif si a est deja sort
+void	is_sorted(t_base *base)
 {
-	t_list	*search;
+	int		i;
 
-	while (node)
+	i = 0;
+	while (i + 1 < base->start.size)
 	{
-		search = node;
-		while (search)
+		if (base->a[i] < base->a[i + 1])
+			++i;
+		else
+			return ;
+	}
+	ft_free(base);
+}
+
+// verif si un nombre se repete
+void	is_repeated(t_base *base)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < base->start.size)
+	{
+		j = i + 1;
+		while (j < base->start.size)
 		{
-			if ((node->data == search->data)
-				&& (node->index != search->index))
-				return (-1);
-			search = search->next;
+			if (base->a[i] == base->a[j])
+				ft_error("Error\n");
+			++j;
 		}
-		node = node->next;
+		++i;
 	}
-	return (0);
 }
 
-int	check_sort(t_list *node)
+int	ft_error(char *str)
 {
-	while (node->next != NULL)
+	while (*str)
 	{
-		if (node->data > node->next->data)
-			return (0);
-		node = node->next;
+		write(1, &(*str), 1);
+		++str;
 	}
-	return (-1);
+	exit (1);
+	return (1);
 }
 
-int	check(t_list *node)
+// verif si il n'y a que des nombres
+void	check_num(char **av, int ac)
 {
-	if (check_sort(node))
-		exit (0);
-	if (check_double(node))
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < ac)
 	{
-		write(2, "Error\n", 6);
-		exit (0);
+		j = 0;
+		while (av[i][j])
+		{
+			if (is_digit(av[i][j]))
+				ft_error("Error\n");
+			if (av[i][j] == '-')
+			{
+				if (!(av[i][j + 1] >= '1' && av[i][j + 1] <= '9'))
+					ft_error("Error\n");
+			}
+			++j;
+		}
+		++i;
 	}
-	return (0);
+}
+
+// verif si il n'y a que des nombres dans les quotes
+void	check_num_q(char *av, t_base *base)
+{
+	int	i;
+
+	i = 0;
+	base->start.size = (int)length(av, ' ');
+	while (av[i])
+	{
+		if (is_digit(av[i]))
+			ft_error("Error\n");
+		if (av[i] == '-')
+		{
+			if (!(av[i + 1] >= '0' && av[i + 1] <= '9'))
+				ft_error("Error\n");
+		}
+		++i;
+	}
 }
